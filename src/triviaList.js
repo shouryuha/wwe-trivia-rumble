@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 
-import TriviaListJson from "./answers.json";
 import MenuItem from "@material-ui/core/MenuItem";
 // table
 import Table from "@material-ui/core/Table";
@@ -9,7 +8,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
+import axios from 'axios';
 
 // table
 import Select from "@material-ui/core/Select";
@@ -18,9 +17,6 @@ import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import ClearIcon from "@material-ui/icons/Clear";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 // columnsStart
 
@@ -116,12 +112,22 @@ function TriviaList() {
     881, 882, 883, 884, 885, 886, 97, 98,
   ];
   const [maxNum, setMaxNum] = useState(10);
-  const [triviaObj, setTriviaObj] = useState(TriviaListJson["QuestionList"]);
+  const [triviaObj, setTriviaObj] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchTermLength, setSearchTermLength] = useState(0);
   const [questions, setQuestions] = useState([]);
   const [filteredQuestions, setFilteredQuestions] = useState([]);
   const classes = useStyles();
+
+  useEffect(() => {
+    let config = {'Authorization': 'xXrMbfBA8LOT-a78p8F9j9XVha%yh1i!cdzQK8cL2r6k6nLd%6LdafwQ4or5$dvA'};
+    axios.get('https://sheet.best/api/sheets/17b7dc7c-84f2-4d95-b802-560bd8b85499', config)
+    .then(response => {   
+      console.log(response)   
+      setTriviaObj(response.data);
+    })
+    
+  }, []);
 
   useEffect(() => {
     const results = triviaObj.filter((man) =>
